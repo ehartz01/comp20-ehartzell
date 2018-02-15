@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Rick Roll</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<h1 id="title">Rick Roll</h1>
+
+<video src="https://www.cs.tufts.edu/comp/20/rickroll.mp4" id="rickroll" controls></video>
+<div id="lyrics"></div>
+
+<script>
+	// Complete this section and create a CSS file named style.css
+	var v = document.getElementsByID("rickroll");
+	v.addEventListener("seeked", function() {v.play();}, true);
+	var l = document.getElementsByID("lyrics");
+	if v.currentTime == 0 {
+		l.nodeValue = stanza1
+	}
+	stanza1 = "We're no strangers to love \n You know the rules and so do I \n A full commitment's what I'm thinking of \n You wouldn't get this from any other guy"
+	stanza2 = "I just wanna tell you how I'm feeling\n Gotta make you understand"
+	chorus = "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
+	stanza4 = "We've known each other for so long\nYour heart's been aching, but\nYou're too shy to say it\nInside, we both know what's been going on\nWe know the game and we're gonna play it"
+	stanza5 = "And if you ask me how I'm feeling\nDon't tell me you're too blind to see"
+	//play chorus twice after stanza5
+	//replay stanza 4
+	//replay stanza 2
+	//replay chorus 3 times
+
+</script>
+</body>
+</html>	
