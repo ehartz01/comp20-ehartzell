@@ -14,22 +14,57 @@
 <div id="lyrics"></div>
 
 <script>
-	// Complete this section and create a CSS file named style.css
-	var v = document.getElementsByID("rickroll");
-	v.addEventListener("seeked", function() {v.play();}, true);
-	var l = document.getElementsByID("lyrics");
-	if v.currentTime == 0 {
-		l.nodeValue = stanza1
-	}
-	stanza1 = "We're no strangers to love \n You know the rules and so do I \n A full commitment's what I'm thinking of \n You wouldn't get this from any other guy"
-	stanza2 = "I just wanna tell you how I'm feeling\n Gotta make you understand"
-	chorus = "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
+	stanza1 = "<p>We're no strangers to love</p> <p>You know the rules and so do I</p> \n <p>A full commitment's what I'm thinking of </p>\n <p>You wouldn't get this from any other guy</p>"
+	stanza2 = "<p>I just wanna tell you how I'm feeling</p>\n <p>Gotta make you understand</p>"
+	chorus = "<p>Never gonna give you up</p>Never gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
 	stanza4 = "We've known each other for so long\nYour heart's been aching, but\nYou're too shy to say it\nInside, we both know what's been going on\nWe know the game and we're gonna play it"
 	stanza5 = "And if you ask me how I'm feeling\nDon't tell me you're too blind to see"
+	interlude = "(Ooh, give you up) (Ooh, give you up) Never gonna give, never gonna give (Give you up) Never gonna give, never gonna give (Give you up)"
 	//play chorus twice after stanza5
 	//replay stanza 4
 	//replay stanza 2
 	//replay chorus 3 times
+	// Complete this section and create a CSS file named style.css
+	var v = document.getElementById("rickroll");
+	console.log(v)
+	var l = document.getElementById("lyrics");
+	console.log(l)
+	v.addEventListener("timeupdate", function(){
+		console.log(v.currentTime)
+		if (v.currentTime >= 18){
+			console.log("Wow it happened!")
+			l.innerHTML = stanza1;
+		}
+		if (v.currentTime >= 35){
+			l.innerHTML = stanza2;
+		}
+		if (v.currentTime >= 42){
+			l.innerHTML = chorus;
+		}
+		if (v.currentTime >= 60){
+			l.innerHTML = stanza4;
+		}
+		if (v.currentTime >= 77){
+			l.innerHTML = stanza5;
+		}
+		if (v.currentTime >= 85){
+			l.innerHTML = chorus;
+		}
+		if (v.currentTime >= 120){
+			l.innerHTML = interlude;
+		}
+		if (v.currentTime >= 136){
+			l.innerHTML = stanza4;
+		}
+		if (v.currentTime >= 153){
+			l.innerHTML = stanza2;
+		}
+		if (v.currentTime >= 161){
+			l.innerHTML = chorus;
+		}
+
+	});
+	
 
 </script>
 </body>
