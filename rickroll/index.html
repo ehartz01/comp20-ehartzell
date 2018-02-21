@@ -14,7 +14,7 @@
 <div id="lyrics"></div>
 
 <script>
-	stanza1 = "<p>We're no strangers to love</p> <p>You know the rules and so do I</p> \n <p>A full commitment's what I'm thinking of </p>\n <p>You wouldn't get this from any other guy</p>"
+	stanza1 = "<p>We're no strangers to love</p> <p>You know the rules and so do I</p> <p>A full commitment's what I'm thinking of </p>\n <p>You wouldn't get this from any other guy</p>"
 	stanza2 = "<p>I just wanna tell you how I'm feeling</p>\n <p>Gotta make you understand</p>"
 	chorus = "<p>Never gonna give you up</p><p>Never gonna let you down</p><p>Never gonna run around and desert you</p><p>Never gonna make you cry</p><p>Never gonna say goodbye</p><p>Never gonna tell a lie and hurt you</p>"
 	stanza4 = "<p>We've known each other for so long</p><p>Your heart's been aching, but</p><p>You're too shy to say it</p><p>Inside, we both know what's been going on</p><p>We know the game and we're gonna play it"
@@ -28,7 +28,6 @@
 	var v = document.getElementById("rickroll");
 	var l = document.getElementById("lyrics");
 	v.addEventListener("timeupdate", function(){
-		console.log(v.currentTime)
 		if (v.currentTime >= 18){
 			l.innerHTML = stanza1;
 		}

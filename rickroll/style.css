@@ -1,0 +1,21 @@
+#lyrics {
+	background-color: aqua;
+	text-align: center;
+}
+
+p {
+	font-family: Arial;
+	text-decoration-color: black;
+}
+
+#title {
+	background-color: blue;
+	font-family: Verdana;
+	text-align: center;
+}
+
+video {
+	display: block;
+	margin: 0 auto;
+	background-color: black;
+}
