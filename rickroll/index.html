@@ -16,23 +16,20 @@
 <script>
 	stanza1 = "<p>We're no strangers to love</p> <p>You know the rules and so do I</p> \n <p>A full commitment's what I'm thinking of </p>\n <p>You wouldn't get this from any other guy</p>"
 	stanza2 = "<p>I just wanna tell you how I'm feeling</p>\n <p>Gotta make you understand</p>"
-	chorus = "<p>Never gonna give you up</p>Never gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
-	stanza4 = "We've known each other for so long\nYour heart's been aching, but\nYou're too shy to say it\nInside, we both know what's been going on\nWe know the game and we're gonna play it"
-	stanza5 = "And if you ask me how I'm feeling\nDon't tell me you're too blind to see"
-	interlude = "(Ooh, give you up) (Ooh, give you up) Never gonna give, never gonna give (Give you up) Never gonna give, never gonna give (Give you up)"
+	chorus = "<p>Never gonna give you up</p><p>Never gonna let you down</p><p>Never gonna run around and desert you</p><p>Never gonna make you cry</p><p>Never gonna say goodbye</p><p>Never gonna tell a lie and hurt you</p>"
+	stanza4 = "<p>We've known each other for so long</p><p>Your heart's been aching, but</p><p>You're too shy to say it</p><p>Inside, we both know what's been going on</p><p>We know the game and we're gonna play it"
+	stanza5 = "<p>And if you ask me how I'm feeling</p><p>Don't tell me you're too blind to see</p>"
+	interlude = "<p>(Ooh, give you up) (Ooh, give you up)</p><p>Never gonna give, never gonna give (Give you up)</p> <p>Never gonna give, never gonna give (Give you up)</p>"
 	//play chorus twice after stanza5
 	//replay stanza 4
 	//replay stanza 2
 	//replay chorus 3 times
 	// Complete this section and create a CSS file named style.css
 	var v = document.getElementById("rickroll");
-	console.log(v)
 	var l = document.getElementById("lyrics");
-	console.log(l)
 	v.addEventListener("timeupdate", function(){
 		console.log(v.currentTime)
 		if (v.currentTime >= 18){
-			console.log("Wow it happened!")
 			l.innerHTML = stanza1;
 		}
 		if (v.currentTime >= 35){
