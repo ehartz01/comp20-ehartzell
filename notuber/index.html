@@ -23,28 +23,30 @@
     <script>
       var my_username = "0KNOX8K5Os"
       var map;
-      console.log(navigator.geolocation);
-      function initMap() {
+      function initMap(latitude,longitude) {
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+          center: {lat: latitude, lng: longitude},
+          zoom: 12
         });
+        }
+      function success(position) {
+        var latitude  = parseFloat(position.coords.latitude);
+        var longitude = parseFloat(position.coords.longitude);
+        console.log(latitude)
+        initMap(latitude,longitude);
+        find_vehicles(latitude,longitude);
       }
-      function get_location(){  //use what?
+      navigator.geolocation.getCurrentPosition(success);
+      
+      function find_vehicles(lat,lon){ //use our api
         req = new XMLHttpRequest();
-        req.open("GET","??", true);
+        req.open("POST","https://jordan-marsh.herokuapp.com/rides", true);
         if (req.readyState == 4 && req.status == 200) {
           //do something good
+          console.log(req.responseText);
         }
-        req.send();
-      }
-      function find_vehicles(){ //use our api
-        req = new XMLHttpRequest();
-        req.open("POST","??", true);
-        if (req.readyState == 4 && req.status == 200) {
-          //do something good
-        }
-        req.send();
+        my_info = {username: my_username, lat:lat, lng:lon};
+        req.send(my_info);
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQ3z491p9ms8ZsYiAfesdVoH4_ZlR8kE&callback=initMap"
