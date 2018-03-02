@@ -30,23 +30,33 @@
         });
         }
       function success(position) {
-        var latitude  = parseFloat(position.coords.latitude);
-        var longitude = parseFloat(position.coords.longitude);
-        console.log(latitude)
+        var latitude  = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        console.log(latitude);
         initMap(latitude,longitude);
-        find_vehicles(latitude,longitude);
+        var vehicle_list = find_vehicles(latitude,longitude);
+        console.log(vehicle_list);
       }
       navigator.geolocation.getCurrentPosition(success);
+
       
       function find_vehicles(lat,lon){ //use our api
-        req = new XMLHttpRequest();
+        var req = new XMLHttpRequest();
         req.open("POST","https://jordan-marsh.herokuapp.com/rides", true);
+        var my_info = "username="+my_username+"&lat="+lat+"&lng="+lon;
+        //my_info = "username=0KNOX8K5Os&lat=42.4039236&lng=-71.12090502999"
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         if (req.readyState == 4 && req.status == 200) {
           //do something good
+          console.log("somethin good");
           console.log(req.responseText);
+          return req.responseText;
         }
-        my_info = {username: my_username, lat:lat, lng:lon};
+        console.log(req);
+        console.log(my_info);
         req.send(my_info);
+        var vehic
+        console.log(req);
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQ3z491p9ms8ZsYiAfesdVoH4_ZlR8kE&callback=initMap"
