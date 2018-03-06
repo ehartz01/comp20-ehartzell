@@ -18,48 +18,59 @@
       }
     </style>
   </head>
-  <body>
+  <body onload ="init()">
     <div id="map"></div>
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQ3z491p9ms8ZsYiAfesdVoH4_ZlR8kE"
+    async defer></script>
     <script>
       var my_username = "0KNOX8K5Os"
       var map;
       function initMap(latitude,longitude) {
+        console.log("init map");
+        console.log(typeof latitude);
+        console.log(typeof longitude);
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: latitude, lng: longitude},
+          center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
           zoom: 12
         });
         }
       function success(position) {
-        var latitude  = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        console.log(latitude);
-        initMap(latitude,longitude);
-        var vehicle_list = find_vehicles(latitude,longitude);
-        console.log(vehicle_list);
+        console.log("success function")
+        var lat  = position.coords.latitude;
+        var long = position.coords.longitude;
+        console.log(lat);
+        initMap(lat,long);
+        find_vehicles(lat,long);
       }
+      function init(){
       navigator.geolocation.getCurrentPosition(success);
-
+    }
       
       function find_vehicles(lat,lon){ //use our api
         var req = new XMLHttpRequest();
+        console.log("finding vehicles");
         req.open("POST","https://jordan-marsh.herokuapp.com/rides", true);
         var my_info = "username="+my_username+"&lat="+lat+"&lng="+lon;
         //my_info = "username=0KNOX8K5Os&lat=42.4039236&lng=-71.12090502999"
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        if (req.readyState == 4 && req.status == 200) {
-          //do something good
-          console.log("somethin good");
-          console.log(req.responseText);
-          return req.responseText;
+        req.onreadystatechange = function(){
+          if (req.readyState == 4 && req.status == 200) {
+            var vlist = JSON.parse(req.responseText);
+            for (var i in vlist.vehicles){
+              for (var j in vlist.vehicles[i]){
+                console.log(j + vlist.vehicles[i][j]);
+              }
+              console.log("next one baby");
+            }
+          }
         }
         console.log(req);
         console.log(my_info);
+        console.log("about to send req");
         req.send(my_info);
-        var vehic
         console.log(req);
+        console.log(req.responseText);
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQ3z491p9ms8ZsYiAfesdVoH4_ZlR8kE&callback=initMap"
-    async defer></script>
   </body>
 </html>
