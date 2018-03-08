@@ -20,7 +20,7 @@
   </head>
   <body onload ="init()">
     <div id="map"></div>
-     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQ3z491p9ms8ZsYiAfesdVoH4_ZlR8kE"
+     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfQ3z491p9ms8ZsYiAfesdVoH4_ZlR8kE&libraries=geometry"
     async defer></script>
     <script>
       var my_username = "0KNOX8K5Os"
@@ -34,8 +34,8 @@
           zoom: 17
         });
         var me_mark = new google.maps.Marker({position: {lat: latitude,lng: longitude}, map: map, icon: "me.png"});
+        find_vehicles(parseFloat(latitude),parseFloat(longitude),me_mark);
 
-        find_vehicles(latitude,longitude);
       }
       function success(position) {
         console.log("success function")
@@ -48,54 +48,72 @@
       navigator.geolocation.getCurrentPosition(success);
     }
       
-      function find_vehicles(lat,lon){ //use our api
+      function find_vehicles(lat,lon,me_mark){ //use our api
         var req = new XMLHttpRequest();
         console.log("finding vehicles");
         req.open("POST","https://jordan-marsh.herokuapp.com/rides", true);
         var my_info = "username="+my_username+"&lat="+lat+"&lng="+lon;
         //my_info = "username=0KNOX8K5Os&lat=42.4039236&lng=-71.12090502999"
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        
+        var personal_info = "<div id=info><p id ='me'>";
+        var other_info = "<div>";
         req.onreadystatechange = function(){
           var vehicle_icon = "car.png";
-          var passenger_icon = "person.png"
-          var personal_info = "<div id=info><p>Hello, " + my_username + "! The nearest vehicle to you is "
+          var passenger_icon = "person.png";
           var distances = [] //this is store distances, find the max and then add the content
-          if (req.readyState == 4 && req.status == 200) {
-            var vlist = JSON.parse(req.responseText);
-            if (req.responseText.includes("vehicles")){
-                for (var i =0; i < vlist.vehicles.length; i++){
-                    var car = new google.maps.Marker({
-                      position: {lat: vlist.vehicles[i].lat, lng: vlist.vehicles[i].lng},
-                      map: map,
-                      icon: vehicle_icon
-                      });
-                    dist = 0.000621371*google.maps.geometry.spherical.computeDistanceBetween({lat:lat,lng:lon},{lat: vlist.vehicles[i].lat, lng: vlist.vehicles[i].lng});
-                    distances.push(dist);
+          var infos = [];
+          var other_ppl = new google.maps.InfoWindow({content: });
+              if (req.readyState == 4 && req.status == 200) {
+                var vlist = JSON.parse(req.responseText);
+                if (req.responseText.includes("vehicles")){
+                    for (var i =0; i < vlist.vehicles.length; i++){
+                        var car = new google.maps.Marker({
+                          position: {lat: vlist.vehicles[i].lat, lng: vlist.vehicles[i].lng},
+                          map: map,
+                          icon: vehicle_icon
+                          });
+                        dist = 0.000621371*google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat,lon),new google.maps.LatLng(vlist.vehicles[i].lat,vlist.vehicles[i].lng));
+                        distances.push(dist);
+                    }
+                  for (var i =0; i<vlist.vehicles.length;i++){
+                    other_info += "<p id="+vlist.vehicles[i].username+">"+vlist.vehicles[i].username+" is " + distances[i] + " miles away from you.</p>";
+                  }
+                  other_info += "</div>";
+                  }
+                if (req.responseText.includes("passengers")){
+                  for (var i =0; i < vlist.passengers.length; i++){
+                        var car = new google.maps.Marker({
+                          position: {lat: vlist.passengers[i].lat, lng: vlist.passengers[i].lng},
+                          map: map,
+                          icon: passenger_icon
+                          });
+                        dist = 0.000621371*google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(lat,lon),new google.maps.LatLng(vlist.passengers[i].lat,vlist.passengers[i].lng))
+                        distances.push(dist);
+                    }
+                  for (var i =0; i<vlist.passengers.length;i++){
+                    other_info += "<p id=\'"+vlist.passengers[i].username+"\'>"+vlist.passengers[i].username+" is " + distances[i] + " miles away from you.</p>";
                 }
               }
-            if (req.responseText.includes("passengers")){
-              for (var i =0; i < vlist.passengers.length; i++){
-                    var car = new google.maps.Marker({
-                      position: {lat: vlist.passengers[i].lat, lng: vlist.passengers[i].lng},
-                      map: map,
-                      icon: passenger_icon
-                      });
-                    dist = 0.000621371*google.maps.geometry.spherical.computeDistanceBetween({lat:lat,lng:lon},{lat: vlist.passengers[i].lat, lng: vlist.passengers[i].lng});
-
-                    distances.push(dist);
-                }
+            console.log(distances);
+            min_dist = Math.min.apply(Math,distances);
+            console.log("min is " + min_dist)
+            console.log("heres the rest");
+            personal_info += min_dist + " miles away.</p></div>";
+            var con = "Hello, " + my_username + "! The nearest user is " + min_dist + " away from you.";
+      var infowindow = new google.maps.InfoWindow({content: con});
+      me_mark.addListener('click', function() {
+          infowindow.open(map, this);
+        });
             }
           }
-          var max_dist = Math.max(distances);
-          personal_info += max_dist + " miles away.</p></div>";
-        }
       console.log(req);
       console.log(my_info);
       console.log("about to send req");
       req.send(my_info);
       console.log(req);
       console.log(req.responseText);
+      console.log("here it is");
+      console.log(personal_info);
       }
     </script>
   </body>
