@@ -33,7 +33,8 @@
           center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
           zoom: 12
         });
-        }
+        var me_mark = new google.maps.Marker({position: {lat: latitude,lng: longitude}, map: map, icon: "me.png"});
+      }
       function success(position) {
         console.log("success function")
         var lat  = position.coords.latitude;
@@ -56,20 +57,23 @@
         req.onreadystatechange = function(){
           if (req.readyState == 4 && req.status == 200) {
             var vlist = JSON.parse(req.responseText);
-            for (var i in vlist.vehicles){
-              for (var j in vlist.vehicles[i]){
-                console.log(j + vlist.vehicles[i][j]);
-              }
+            var image = "icon.png";
+            for (var i =0; i < vlist.vehicles.length; i++){
+                var car = new google.maps.Marker({
+                  position: {lat: -33.890, lng: 151.274},
+                  map: map,
+                  icon: image
+                  });
               console.log("next one baby");
             }
           }
         }
-        console.log(req);
-        console.log(my_info);
-        console.log("about to send req");
-        req.send(my_info);
-        console.log(req);
-        console.log(req.responseText);
+      console.log(req);
+      console.log(my_info);
+      console.log("about to send req");
+      req.send(my_info);
+      console.log(req);
+      console.log(req.responseText);
       }
     </script>
   </body>
