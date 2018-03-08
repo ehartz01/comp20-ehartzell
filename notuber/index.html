@@ -34,6 +34,7 @@
           zoom: 12
         });
         var me_mark = new google.maps.Marker({position: {lat: latitude,lng: longitude}, map: map, icon: "me.png"});
+        find_vehicles(latitude,longitude);
       }
       function success(position) {
         console.log("success function")
@@ -41,7 +42,6 @@
         var long = position.coords.longitude;
         console.log(lat);
         initMap(lat,long);
-        find_vehicles(lat,long);
       }
       function init(){
       navigator.geolocation.getCurrentPosition(success);
@@ -54,20 +54,31 @@
         var my_info = "username="+my_username+"&lat="+lat+"&lng="+lon;
         //my_info = "username=0KNOX8K5Os&lat=42.4039236&lng=-71.12090502999"
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
         req.onreadystatechange = function(){
+          var image = "car.png";
           if (req.readyState == 4 && req.status == 200) {
             var vlist = JSON.parse(req.responseText);
-            var image = "icon.png";
-            for (var i =0; i < vlist.vehicles.length; i++){
-                var car = new google.maps.Marker({
-                  position: {lat: -33.890, lng: 151.274},
-                  map: map,
-                  icon: image
-                  });
-              console.log("next one baby");
+            if (req.responseText.includes("vehicles")){
+                for (var i =0; i < vlist.vehicles.length; i++){
+                    var car = new google.maps.Marker({
+                      position: {lat: vlist.vehicles[i].lat, lng: vlist.vehicles[i].lng},
+                      map: map,
+                      icon: image
+                      });
+                }
+            }
+            if (req.responseText.includes("passengers")){
+              for (var i =0; i < vlist.passengers.length; i++){
+                    var car = new google.maps.Marker({
+                      position: {lat: vlist.passengers[i].lat, lng: vlist.passengers[i].lng},
+                      map: map,
+                      icon: image
+                      });
+                }
+            }
             }
           }
-        }
       console.log(req);
       console.log(my_info);
       console.log("about to send req");
