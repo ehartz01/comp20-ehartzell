@@ -31,9 +31,10 @@
         console.log(typeof longitude);
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: parseFloat(latitude), lng: parseFloat(longitude)},
-          zoom: 12
+          zoom: 17
         });
         var me_mark = new google.maps.Marker({position: {lat: latitude,lng: longitude}, map: map, icon: "me.png"});
+
         find_vehicles(latitude,longitude);
       }
       function success(position) {
@@ -56,7 +57,10 @@
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         
         req.onreadystatechange = function(){
-          var image = "car.png";
+          var vehicle_icon = "car.png";
+          var passenger_icon = "person.png"
+          var personal_info = "<div id=info><p>Hello, " + my_username + "! The nearest vehicle to you is "
+          var distances = [] //this is store distances, find the max and then add the content
           if (req.readyState == 4 && req.status == 200) {
             var vlist = JSON.parse(req.responseText);
             if (req.responseText.includes("vehicles")){
@@ -64,21 +68,28 @@
                     var car = new google.maps.Marker({
                       position: {lat: vlist.vehicles[i].lat, lng: vlist.vehicles[i].lng},
                       map: map,
-                      icon: image
+                      icon: vehicle_icon
                       });
+                    dist = 0.000621371*google.maps.geometry.spherical.computeDistanceBetween({lat:lat,lng:lon},{lat: vlist.vehicles[i].lat, lng: vlist.vehicles[i].lng});
+                    distances.push(dist);
                 }
-            }
+              }
             if (req.responseText.includes("passengers")){
               for (var i =0; i < vlist.passengers.length; i++){
                     var car = new google.maps.Marker({
                       position: {lat: vlist.passengers[i].lat, lng: vlist.passengers[i].lng},
                       map: map,
-                      icon: image
+                      icon: passenger_icon
                       });
+                    dist = 0.000621371*google.maps.geometry.spherical.computeDistanceBetween({lat:lat,lng:lon},{lat: vlist.passengers[i].lat, lng: vlist.passengers[i].lng});
+
+                    distances.push(dist);
                 }
             }
-            }
           }
+          var max_dist = Math.max(distances);
+          personal_info += max_dist + " miles away.</p></div>";
+        }
       console.log(req);
       console.log(my_info);
       console.log("about to send req");
