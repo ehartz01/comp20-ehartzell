@@ -10,14 +10,13 @@
     <script>
         // Your work will be done here...
         $(document).ready(function(){
-            var updates = [];
             $( "#msg" ).keypress(function(e){
                 console.log("selected it")
                 var keycode = (e.keyCode ? e.keyCode : e.which);
                 if (e.which == 13){
-                    updates.push(this.value);
-                    console.log(updates);
-                    $("#log").append("<p>"+this.value+"  " + Date.now());
+                    date = Date.now()
+                    $("#log").prepend("<p>"+this.value+"  " + date);
+                    (localStorage).setItem(date,this.value);
                 //we dont need to store to some array
                 //we need to store the message with the date in the localStorate
                 //and we need to check for messages when the page loads
