@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Captain's Log</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        // Your work will be done here...
+        $(document).ready(function(){
+            var updates = [];
+            $( "#msg" ).keypress(function(e){
+                console.log("selected it")
+                var keycode = (e.keyCode ? e.keyCode : e.which);
+                if (e.which == 13){
+                    updates.push(this.value);
+                    console.log(updates);
+                    $("#log").append("<p>"+this.value+"  " + Date.now());
+                //we dont need to store to some array
+                //we need to store the message with the date in the localStorate
+                //and we need to check for messages when the page loads
+                }
+            })
+            //(localStorage | sessionStorage).setItem()
+            //(localStorage | sessionStorage).getItem()
+            //(localStorage | sessionStorage).deleteItem()
+            (localStorage).setItem()
+
+        })
+    </script>
+</head>
+
+<body>
+    <h1>Captain's Log</h1>
+    <h3>New entry: <input type="text" id="msg" name="msg" size="30" /></h3>
+    <div id="log"></div>
+</body>
+</html>
