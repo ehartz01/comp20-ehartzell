@@ -10,23 +10,26 @@
     <script>
         // Your work will be done here...
         $(document).ready(function(){
-            $( "#msg" ).keypress(function(e){
+            var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            //for (key in localStorage){
+             //   console.log(key);
+              //  $( "#msg" ).prepend("<p>"+key+"</p>");
+            //}
+            $( "#msg" ).keyup(function(e){
                 console.log("selected it")
                 var keycode = (e.keyCode ? e.keyCode : e.which);
                 if (e.which == 13){
-                    date = Date.now()
-                    $("#log").prepend("<p>"+this.value+"  " + date);
-                    (localStorage).setItem(date,this.value);
-                //we dont need to store to some array
-                //we need to store the message with the date in the localStorate
-                //and we need to check for messages when the page loads
+                    date = new Date();
+                    readable_date = date.toString();
+                    log = "<p>"+readable_date+" - " + this.value  + "</p>";
+                    $("#log").prepend(log);
+                    (localStorage).setItem(date,log);        //you cant store an array here, only strings
                 }
             })
             //(localStorage | sessionStorage).setItem()
             //(localStorage | sessionStorage).getItem()
             //(localStorage | sessionStorage).deleteItem()
-            (localStorage).setItem()
-
+            
         })
     </script>
 </head>
