@@ -17,7 +17,6 @@
                 }
             }
             $( "#msg" ).keyup(function(e){
-                console.log("selected it")
                 var keycode = (e.keyCode ? e.keyCode : e.which);
                 if (e.which == 13){
                     date = new Date();
@@ -34,6 +33,7 @@
                         new_logs.push(log);
                         (localStorage).setItem("log",JSON.stringify(new_logs));
                     }
+                    this.value = "";
                 }
             })
             //(localStorage | sessionStorage).setItem()
