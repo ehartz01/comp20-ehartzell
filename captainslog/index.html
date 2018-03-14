@@ -10,11 +10,12 @@
     <script>
         // Your work will be done here...
         $(document).ready(function(){
-            var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-            //for (key in localStorage){
-             //   console.log(key);
-              //  $( "#msg" ).prepend("<p>"+key+"</p>");
-            //}
+            if  ( (localStorage).getItem("log") != null ){
+                old_logs = JSON.parse((localStorage).getItem("log"));
+                for (var i=0;i<old_logs.length;i++){
+                    $( "#log" ).prepend(old_logs[i]);
+                }
+            }
             $( "#msg" ).keyup(function(e){
                 console.log("selected it")
                 var keycode = (e.keyCode ? e.keyCode : e.which);
@@ -22,8 +23,17 @@
                     date = new Date();
                     readable_date = date.toString();
                     log = "<p>"+readable_date+" - " + this.value  + "</p>";
-                    $("#log").prepend(log);
-                    (localStorage).setItem(date,log);        //you cant store an array here, only strings
+                    $("#log").prepend(log); 
+                    if ( (localStorage).getItem("log") != null){
+                        past_log = JSON.parse( (localStorage).getItem("log") );
+                        past_log.push(log);
+                        (localStorage).setItem("log",JSON.stringify(past_log));
+                    }
+                    if ( (localStorage).getItem("log") == null ){
+                        new_logs = [];
+                        new_logs.push(log);
+                        (localStorage).setItem("log",JSON.stringify(new_logs));
+                    }
                 }
             })
             //(localStorage | sessionStorage).setItem()
